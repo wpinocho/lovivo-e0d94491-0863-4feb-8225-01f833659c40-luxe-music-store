@@ -60,31 +60,35 @@ export const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="right" className="w-full sm:w-96 p-0" aria-describedby="cart-description">
+      <SheetContent side="right" className="w-full sm:w-96 p-0 bg-card border-primary/20" aria-describedby="cart-description">
         <div className="flex flex-col h-full">
-          <SheetHeader className="p-6 border-b">
-            <SheetTitle className="flex items-center gap-2">
-              Shopping Cart
-              <Link to="/cart" onClick={onClose} className="hover:opacity-70 transition-opacity">
+          <SheetHeader className="p-6 border-b border-primary/20">
+            <SheetTitle className="flex items-center gap-2 text-foreground text-xl">
+              <ShoppingCart className="h-5 w-5 text-primary" />
+              Carrito de Compras
+              <Link to="/cart" onClick={onClose} className="ml-auto hover:opacity-70 transition-opacity">
                 <ExternalLink className="h-4 w-4" />
               </Link>
             </SheetTitle>
             <div id="cart-description" className="sr-only">
-              Review and modify the products in your shopping cart
+              Revisa y modifica los productos en tu carrito
             </div>
           </SheetHeader>
 
           {state.items.length === 0 ? (
             <div className="flex-1 flex items-center justify-center p-6">
               <div className="text-center">
-                <h3 className="text-lg font-medium text-foreground mb-2">
-                  Your cart is empty
+                <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                  <ShoppingCart className="h-12 w-12 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  Tu Carrito Está Vacío
                 </h3>
-                <p className="text-muted-foreground mb-4">
-                  Add some products to start your purchase
+                <p className="text-muted-foreground mb-6">
+                  Agrega algunos productos para comenzar tu compra
                 </p>
-                <Button onClick={onClose} variant="outline">
-                  Continue Shopping
+                <Button onClick={onClose} className="gold-gradient text-luxury-black">
+                  Continuar Comprando
                 </Button>
               </div>
             </div>
@@ -93,7 +97,7 @@ export const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
               {/* Cart Items */}
               <div className="flex-1 overflow-y-auto p-6 space-y-4">
                 {state.items.map((item) => (
-                  <Card key={item.key}>
+                  <Card key={item.key} className="border-primary/20 bg-background/50">
                     <CardContent className="p-4">
                       <div className="flex items-start space-x-3">
                         <div className="w-16 h-16 bg-muted rounded-md overflow-hidden flex-shrink-0">
@@ -160,21 +164,27 @@ export const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
               </div>
 
               {/* Order Summary */}
-              <div className="border-t p-6">
-                <div className="space-y-3">
-                  <div className="flex justify-between font-semibold text-lg">
-                    <span>Total</span>
-                    <span>${finalTotal.toFixed(2)}</span>
+              <div className="border-t border-primary/20 p-6 bg-muted/20">
+                <div className="space-y-4 mb-6">
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span className="font-semibold text-foreground">${finalTotal.toFixed(2)}</span>
+                  </div>
+                  <div className="pt-4 border-t border-primary/20">
+                    <div className="flex justify-between items-center text-xl">
+                      <span className="font-bold text-foreground">Total</span>
+                      <span className="font-bold gold-text">${finalTotal.toFixed(2)}</span>
+                    </div>
                   </div>
                 </div>
 
                 <Button 
-                  className="w-full mt-4" 
+                  className="w-full gold-gradient text-luxury-black font-bold text-lg shadow-2xl hover:scale-105 transition-all hover:shadow-primary/50" 
                   size="lg" 
                   onClick={handleCreateCheckout} 
                   disabled={isCreatingOrder}
                 >
-                  {isCreatingOrder ? 'Processing...' : 'Checkout'}
+                  {isCreatingOrder ? 'Procesando...' : 'Finalizar Compra'}
                 </Button>
               </div>
             </>
